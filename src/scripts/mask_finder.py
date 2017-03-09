@@ -34,10 +34,12 @@ class MaskFinder(Color_Slider, object):
             called cv_image for subsequent processing """
         self.cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
         self.hsv_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2HSV)
-        # self.binary_image = cv2.inRange(self.hsv_image, (10,106,158), (20,255,255))
+
+        # use user specified colors here
+        self.binary_image = cv2.inRange(self.hsv_image, (10,106,158), (20,255,255))
 
         # uncomment for color sliders
-        self.binary_image = cv2.inRange(self.hsv_image, (self.hsv_lb[0],self.hsv_lb[1],self.hsv_lb[2]), (self.hsv_ub[0],self.hsv_ub[1],self.hsv_ub[2]))
+        # self.binary_image = cv2.inRange(self.hsv_image, (self.hsv_lb[0],self.hsv_lb[1],self.hsv_lb[2]), (self.hsv_ub[0],self.hsv_ub[1],self.hsv_ub[2]))
 
     def process_mouse_event(self, event, x,y,flags,param):
         """ Process mouse events so that you can see the color values associated
