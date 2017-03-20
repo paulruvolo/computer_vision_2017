@@ -33,13 +33,13 @@ class MaskFinder(Color_Slider, object):
         """ Process image messages from ROS and stash them in an attribute
             called cv_image for subsequent processing """
         self.cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
-        self.hsv_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2HSV)
+        # self.hsv_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2HSV)
 
         # use user specified colors here
         # self.binary_image = cv2.inRange(self.hsv_image, (10,106,158), (20,255,255))
 
         # uncomment for color sliders
-        self.binary_image = cv2.inRange(self.hsv_image, (self.hsv_lb[0],self.hsv_lb[1],self.hsv_lb[2]), (self.hsv_ub[0],self.hsv_ub[1],self.hsv_ub[2]))
+        self.binary_image = cv2.inRange(self.cv_image, (self.rgb_lb[2],self.rgb_lb[1],self.rgb_lb[0]), (self.rgb_ub[2],self.rgb_ub[1],self.rgb_ub[0]))
 
     def process_mouse_event(self, event, x,y,flags,param):
         """ Process mouse events so that you can see the color values associated
@@ -48,7 +48,7 @@ class MaskFinder(Color_Slider, object):
 
         # show hsv values
         cv2.putText(self.image_info_window,
-        'Color (h=%d,s=%d,v=%d)' % (self.hsv_image[y,x,0], self.hsv_image[y,x,1], self.hsv_image[y,x,2]),
+        'Color (r=%d,g=%d,b=%d)' % (self.cv_image[y,x,2], self.cv_image[y,x,1], self.cv_image[y,x,0]),
         (5,50), # 5 = x, 50 = y
         cv2.FONT_HERSHEY_SIMPLEX,
         1,

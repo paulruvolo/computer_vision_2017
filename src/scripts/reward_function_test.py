@@ -33,8 +33,8 @@ class Reward(object):
         self.binary_image = None                    # Binary form of image
 
         #the thresholds to find the yellow color of the sign
-        self.hsv_lb = np.array([10, 145, 141]) # hsv lower bound
-        self.hsv_ub = np.array([175, 255, 255]) # hsv upper bound
+        self.rgb_lb = np.array([105, 0, 0]) # hsv lower bound
+        self.rgb_ub = np.array([205, 75, 115]) # hsv upper bound
 
         # the various windows for visualization
         cv2.namedWindow('HSV_window')
@@ -59,7 +59,7 @@ class Reward(object):
         #converts RGB image to hue, saturation, value image
         self.hsv_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2HSV)
         #creates a binary image on the basis of the yellow sign
-        self.binary_image = cv2.inRange(self.hsv_image, (self.hsv_lb[0], self.hsv_lb[1],self.hsv_lb[2]), (self.hsv_ub[0],self.hsv_ub[1],self.hsv_ub[2]))
+        self.binary_image = cv2.inRange(self.cv_image, (self.rgb_lb[0], self.rgb_lb[1],self.rgb_lb[2]), (self.rgb_ub[0],self.rgb_ub[1],self.rgb_ub[2]))
 
         self.reward = self.calculate_reward()
 
