@@ -17,7 +17,6 @@ class RL(object):
 
         self.image = None                           # the latest image from the camera
         self.cv_image = None                        # gaussian blurred image
-        self.hsv_image = None                       # HSV form of image
         self.binary_image = None                    # Binary form of image
 
         #the thresholds to find the yellow color of the sign
@@ -31,7 +30,6 @@ class RL(object):
         self.weights = np.arange(31.0, -1.0, -1.0)
         self.weights = self.weights/np.sum(self.weights)
         self.reward = 0
-        self.proxy_decision = None
 
         #init ROS Subscriber to camera image
         rospy.Subscriber("/camera/image_raw", Image, self.process_image)
