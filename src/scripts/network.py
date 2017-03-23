@@ -48,6 +48,7 @@ class DQN(object):
 
 		reward = self.calculate_reward(state, self.weights)
 		# obtain the Q' values by feeding the new state through the network
+
         Q1 = sess.run(self.output,feed_dict={self.input:state})
         max_Q1 = np.max(Q1)
         target_Q = self.Q
@@ -55,28 +56,24 @@ class DQN(object):
 
         # train our network using target and predicted Q values
         self.sess.run([self.updateModel,self.W],
-        	feed_dict={self.input:self.current_state,self.target:target_Q})
+            feed_dict={self.input:self.current_state,self.target:target_Q})
 
-	def feed_forward(self, state):
-		"""feed forward the network with a state to get an action vector"""
+    def feed_forward(self, state):
+        """feed forward the network with a state to get an action vector"""
 
-		# Choose an action by greedily (with e chance of random action) from the Q-network
+        # Choose an action by greedily (with e chance of random action) from the Q-network
         self.a, self.Q = sess.run([self.predict, self.output],
-        	feed_dict={self.input:state})
+            feed_dict={self.input:state})
         self.current_state = state
 
         # e chance to select a random action
         if np.random.rand(1) < e:
-        	self.a[0] = self.get_random_action()
+            self.a[0] = self.get_random_action()
 
 		self.i += 1
 		self.e = 1./((self.i/50.0) + 10)
 
         return self.a, self.Q
-
-	def get_random_action(self):
-    	"""get a random action from actions"""
-    	return random.choice(self.actions)
 
 	def calculate_reward(self, binary, weights):
 		"""calculates the reward from the image"""
@@ -87,3 +84,6 @@ class DQN(object):
             goodness += np.sum(binary[r]*weight)
 
         return np.tanh(goodness)
+    def get_random_action(self):
+        """get a random action from actions"""
+        return random.choice(self.actions)
