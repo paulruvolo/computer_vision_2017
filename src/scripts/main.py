@@ -13,7 +13,7 @@ class RobotController(CmdVelPublisher, ImageSubscriber, object):
         rospy.init_node('robot_control')
         super(RobotController, self).__init__()
 
-        self.network = DQN(.85, .5, .1)
+        self.network = DQN(.85, .5, .25)
         self.network.start()
 
 
@@ -45,11 +45,12 @@ class RobotController(CmdVelPublisher, ImageSubscriber, object):
         r = rospy.Rate(10)
         while not rospy.is_shutdown():
             if not self.cv_image is None:
-                cv2.imshow('video_window', self.cv_image)
+                cv2.imshow('video_window', self.binary_image)
                 cv2.waitKey(5)
                 a, Q = self.network.feed_forward(self.binary_reshaped)
                 self.robot_control(a[0])
                 self.network.update(self.binary_reshaped)
+                print self.network.reward
             r.sleep()
 
         self.network.stop()

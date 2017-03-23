@@ -11,27 +11,27 @@ class CmdVelPublisher(object):
         self.angularVector = Vector3(x=0.0, y=0.0, z=0.0)
         self.state = {0:self.forward,
                       1:self.leftTurn,
-                      2:self.leftTurn,
+                      2:self.rightTurn,
                       3:self.stopState}
         print "Initialized CmdVelPublisher"
 
     def forward(self):
         """ Sets the velocity to forward """
         print('forward')
-        self.linearVector  = Vector3(x=1.0, y=0.0, z=0.0)
+        self.linearVector  = Vector3(x=0.1, y=0.0, z=0.0)
         self.angularVector = Vector3(x=0.0, y=0.0, z=0.0)
 
     def leftTurn(self):
         print('leftTurn')
         """ Sets the velocity to turn left """
-        self.linearVector  = Vector3(x=0.0, y=0.0, z=0.0)
-        self.angularVector = Vector3(x=0.0, y=0.0, z=1.0)
+        self.linearVector  = Vector3(x=0.1, y=0.0, z=0.0)
+        self.angularVector = Vector3(x=0.0, y=0.0, z=0.7)
 
     def rightTurn(self):
         print('rightTurn')
         """ Sets the velocity to turn right """
-        self.linearVector  = Vector3(x=0.0, y=0.0, z=0.0)
-        self.angularVector = Vector3(x=0.0, y=0.0, z=-1.0)
+        self.linearVector  = Vector3(x=0.1, y=0.0, z=0.0)
+        self.angularVector = Vector3(x=0.0, y=0.0, z=-0.7)
 
     def stopState(self):
         """ Sets the velocity to stop """

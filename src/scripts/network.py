@@ -31,9 +31,9 @@ class DQN(object):
         # action set
         self.actions = [0, 1, 2] # TODO: change to enum
 
-        #weights to calculate the reward
-        self.weights = np.arange(31.0, -1.0, -1.0)
-        self.weights = self.weights/np.sum(self.weights)
+        self.reward = 0
+        self.reward_window = (np.arange(28,33), np.arange(14,20))
+        self.indices = self.calculate_index()
 
     def start(self):
         """start a session"""
@@ -46,13 +46,13 @@ class DQN(object):
     def update(self, state):
         """ compute loss and update the network with next state and reward"""
 
-        reward = self.calculate_reward(state, self.weights)
+        self.reward = self.calculate_reward(state)
         # obtain the Q' values by feeding the new state through the network
 
         Q1 = self.sess.run(self.output,feed_dict={self.input:state})
         max_Q1 = np.max(Q1)
         target_Q = self.Q
-        target_Q[0, self.a[0]] = reward + self.y * max_Q1
+        target_Q[0, self.a[0]] = self.reward + self.y * max_Q1
 
         # train our network using target and predicted Q values
         self.sess.run([self.updateModel,self.W],
@@ -71,19 +71,29 @@ class DQN(object):
             self.a[0] = self.get_random_action()
 
         self.i += 1
-        self.e = 1./((self.i/50.0) + 10)
+        # self.e = 1./((self.i/50.0) + 10)
 
         return self.a, self.Q
 
-    def calculate_reward(self, binary, weights):
+    def calculate_reward(self, binary):
         """calculates the reward from the image"""
 
         goodness = 0
-        for r in range(len(binary)-1, -1, -1):
-            weight = weights[r]
-            goodness += np.sum(binary[r]*weight)
 
-        return np.tanh(goodness)
+        for index in self.indices:
+            goodness += (binary[0][index] == 255)
+
+        if goodness > 10:
+            return 1
+        else:
+            return 0
+    def calculate_index(self):
+        """calculate index for reward calculation"""
+        indices = []
+        for r in self.reward_window[0]:
+            for c in self.reward_window[1]:
+                indices.append((r-1)*32 + c-1)
+        return indices
     def get_random_action(self):
         """get a random action from actions"""
         return random.choice(self.actions)
