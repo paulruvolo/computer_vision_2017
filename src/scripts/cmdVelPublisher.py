@@ -4,6 +4,7 @@ import rospy
 class CmdVelPublisher(object):
 
     def __init__(self):
+        super(CmdVelPublisher, self).__init__()
         self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
         self.linearVector = Vector3(x=0.0, y=0.0, z=0.0)
@@ -12,7 +13,7 @@ class CmdVelPublisher(object):
                       1:self.leftTurn,
                       2:self.leftTurn,
                       3:self.stop}
-
+        print "Initialized CmdVelPublisher"
 
     def forward(self):
         """ Sets the velocity to forward """
