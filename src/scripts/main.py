@@ -4,6 +4,7 @@ import cv2
 import rospy
 from cmdVelPublisher import CmdVelPublisher
 from imageSubscriber import ImageSubscriber
+from network import DQN
 
 class RobotController(CmdVelPublisher, ImageSubscriber, object):
     """ This script helps find colors masks """
@@ -11,6 +12,10 @@ class RobotController(CmdVelPublisher, ImageSubscriber, object):
     def __init__(self):
         rospy.init_node('robot_control')
         super(RobotController, self).__init__()
+
+        self.network = DQN(.85, .5, .1)
+        self.network.start()
+
 
     def robot_control(self, action):
         # action:
@@ -42,8 +47,12 @@ class RobotController(CmdVelPublisher, ImageSubscriber, object):
             if not self.cv_image is None:
                 cv2.imshow('video_window', self.cv_image)
                 cv2.waitKey(5)
-                self.robot_control(3)
+                a, Q = self.network.feed_forward(self.binary_image)
+                self.robot_control(a[0])
+                self.network.update(self.binary_image)
             r.sleep()
+
+        self.network.stop()
 
 if __name__ == '__main__':
     node = RobotController()

@@ -31,6 +31,10 @@ class DQN(object):
 		# action set
 		self.actions = [0, 1, 2] # TODO: change to enum
 
+		#weights to calculate the reward
+		self.weights = np.arange(31.0, -1.0, -1.0)
+        self.weights = self.weights/np.sum(self.weights)
+
 	def start(self):
 		"""start a session"""
 		self.sess.run(self.init)
@@ -39,9 +43,10 @@ class DQN(object):
 		"""end a session"""
 		self.sess.close()
 
-	def update(self, state, reward):
+	def update(self, state):
 		""" compute loss and update the network with next state and reward"""
 
+		reward = self.calculate_reward(state, self.weights)
 		# obtain the Q' values by feeding the new state through the network
         Q1 = sess.run(self.output,feed_dict={self.input:state})
         max_Q1 = np.max(Q1)
@@ -63,12 +68,22 @@ class DQN(object):
         # e chance to select a random action
         if np.random.rand(1) < e:
         	self.a[0] = self.get_random_action()
-			
+
 		self.i += 1
 		self.e = 1./((self.i/50.0) + 10)
 
         return self.a, self.Q
 
-    def get_random_action(self):
+	def get_random_action(self):
     	"""get a random action from actions"""
     	return random.choice(self.actions)
+
+	def calculate_reward(self, binary, weights):
+		"""calculates the reward from the image"""
+
+        goodness = 0
+        for r in range(len(binary)-1, -1, -1):
+            weight = weights[r]
+            goodness += np.sum(binary[r]*weight)
+
+        return np.tanh(goodness)
