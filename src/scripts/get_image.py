@@ -6,12 +6,15 @@ from cv_bridge import CvBridge
 import cv2
 import numpy as np
 from geometry_msgs.msg import Twist, Vector3
+from cmdVelPublisher import CmdVelPublisher
 
-class MaskFinder(object):
+class MaskFinder(CmdVelPublisher, object):
     """ This script helps find colors masks """
 
 
     def __init__(self):
+        super(MaskFinder, self).__init__()
+        
         rospy.init_node('get_image')
         self.cv_image = None                        # the latest image from the camera
         self.bridge = CvBridge()                    # used to convert ROS messages to OpenCV
