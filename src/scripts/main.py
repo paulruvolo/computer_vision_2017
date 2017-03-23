@@ -34,7 +34,7 @@ class RobotController(CmdVelPublisher, ImageSubscriber, object):
             self.state[3].__call__()
 
         self.sendMessage()
-        rospy.sleep(1) # use desired action for one second
+        rospy.sleep(.1) # use desired action for one second
         self.state[3].__call__() # set robot to stop
         self.sendMessage()
         rospy.sleep(.25)
@@ -47,9 +47,9 @@ class RobotController(CmdVelPublisher, ImageSubscriber, object):
             if not self.cv_image is None:
                 cv2.imshow('video_window', self.cv_image)
                 cv2.waitKey(5)
-                a, Q = self.network.feed_forward(self.binary_image)
+                a, Q = self.network.feed_forward(self.binary_reshaped)
                 self.robot_control(a[0])
-                self.network.update(self.binary_image)
+                self.network.update(self.binary_reshaped)
             r.sleep()
 
         self.network.stop()

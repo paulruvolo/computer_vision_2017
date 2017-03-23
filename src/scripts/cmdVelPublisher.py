@@ -41,5 +41,4 @@ class CmdVelPublisher(object):
 
     def sendMessage(self):
         """ Publishes the Twist containing the linear and angular vector """
-        print('sendMessage')
         self.pub.publish(Twist(linear=self.linearVector, angular=self.angularVector))

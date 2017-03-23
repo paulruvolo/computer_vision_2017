@@ -25,3 +25,4 @@ class ImageSubscriber(object):
         self.cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
         self.cv_image = cv2.resize(self.cv_image, (32, 32))
         self.binary_image = cv2.inRange(self.cv_image, (self.rgb_lb[0], self.rgb_lb[1],self.rgb_lb[2]), (self.rgb_ub[0],self.rgb_ub[1],self.rgb_ub[2]))
+        self.binary_reshaped = self.binary_image.reshape([1,1024])
