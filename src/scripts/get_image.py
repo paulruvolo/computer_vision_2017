@@ -18,25 +18,11 @@ class MaskFinder(object):
         cv2.namedWindow('video_window')
         rospy.Subscriber("/camera/image_raw", Image, self.process_image)
 
-        self.state = {0:self.forward, 1:self.leftTurn, 2:self.leftTurn, 3:self.stop}
-
-        # cmd_vel related attributes
-        self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
-        self.linearVector = Vector3(x=0.0, y=0.0, z=0.0)
-        self.angularVector = Vector3(x=0.0, y=0.0, z=0.0)
-        self.sendMessage()
-
     def process_image(self, msg):
         """ Process image messages from ROS and stash them in an attribute
             called cv_image for subsequent processing """
         self.cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
         self.cv_image = cv2.resize(self.cv_image, (32, 32))
-
-    def forward(self):
-        """ Sets the velocity to forward """
-        print('forward')
-        self.linearVector  = Vector3(x=1.0, y=0.0, z=0.0)
-        self.angularVector = Vector3(x=0.0, y=0.0, z=0.0)
 
     def leftTurn(self):
         print('leftTurn')
@@ -50,37 +36,31 @@ class MaskFinder(object):
         self.linearVector  = Vector3(x=0.0, y=0.0, z=0.0)
         self.angularVector = Vector3(x=0.0, y=0.0, z=-1.0)
 
-    def stop(self):
-        """ Sets the velocity to stop """
-        print('stop')
-        self.linearVector  = Vector3(x=0.0, y=0.0, z=0.0)
-        self.angularVector = Vector3(x=0.0, y=0.0, z=0.0)
-
     def sendMessage(self):
         """ Publishes the Twist containing the linear and angular vector """
         print('sendMessage')
         self.pub.publish(Twist(linear=self.linearVector, angular=self.angularVector))
 
-    def cmd_robot(self, action):
+    def robot_control(self, action):
+        # action:
+        # 0 = forward
+        # 1 = leftTurn
+        # 2 = rightTurn
+        # 3 = stop
         try:
-            # 0 is forward
-            # 1 is leftTurn
-            # 2 is rightTurn
-            if action.shape != (3,):
-                raise ValueError("action is not of the right shape")
-            self.state[np.argmax(action)].__call__()
-            print np.argmax(action)
-            print "Action from neural network"
+            if action < 0 or action > 3:
+                raise ValueError("Action is invalid")
+            self.state[action].__call__()
         except:
-            # 3 is stop
+            # make robot stop
+            print "Invalid action - stopping robot"
             self.state[3].__call__()
-            print "Using default action - stop"
 
         self.sendMessage()
-        rospy.sleep(1.0) # use action for one second
-        self.state[3].__call__() # set twist to stop motion
-        rospy.sleep(.25) # get next picture
-        # self.trainNetwork()
+        rospy.sleep(1) # use desired action for one second
+        self.state[3].__call__() # set robot to stop
+        self.sendMessage()
+        rospy.sleep(.25)
 
 
     def run(self):
@@ -90,7 +70,7 @@ class MaskFinder(object):
             if not self.cv_image is None:
                 cv2.imshow('video_window', self.cv_image)
                 cv2.waitKey(5)
-                self.cmd_robot(np.array([0,0,0]))
+                self.robot_control(3)
             r.sleep()
 
 if __name__ == '__main__':
