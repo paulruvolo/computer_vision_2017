@@ -60,13 +60,15 @@ class Control_Robot(CmdVelPublisher, ImageSubscriber, object):
 
     def writeImages(self, cv_image, binary_image, time, category):
         directory = 'test'
-        directory = 'train'
-        cv2.imwrite('data/{}}/binary/{}/{}.png'.format(directory, category, time), binary_image)
-        cv2.imwrite('data/{}}/color/{}/{}.png'.format(directory, category, time), cv_image)
+        # directory = 'train'
+        cv2.imwrite('data/{}/binary/{}/{}.png'.format(directory, category, time), binary_image)
+        cv2.imwrite('data/{}/color/{}/{}.png'.format(directory, category, time), cv_image)
 
     def writeImagesMirror(self, cv_image, binary_image, time, category):
-        cv2.imwrite('data/{}}/binary/{}/{}.png'.format(category, time), binary_image)
-        cv2.imwrite('data/{}/color/{}/{}.png'.format(category, time), cv_image)
+        directory = 'test'
+        # directory = 'train'
+        cv2.imwrite('data/{}/binary/{}/{}.png'.format(directory, category, time), cv2.flip(binary_image, 0))
+        cv2.imwrite('data/{}/color/{}/{}.png'.format(directory, category, time), cv2.flip(cv_image, 0))
 
     def imageSave(self):
         cv_image = self.cv_image
