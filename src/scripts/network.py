@@ -12,9 +12,38 @@ class DQN(object):
         self.i = 0
         # These lines establish the feed-forward part of the network
         # used to choose actions
-        self.input = tf.placeholder(shape=[1,1024],dtype=tf.float32)
-        self.W = tf.Variable(tf.random_uniform([1024,3],0,0.01))
-        self.output = tf.matmul(self.input, self.W)
+        self.input = tf.placeholder(shape=[32,32],dtype=tf.float32)
+
+        # first conv layer
+        W_conv1 = weight_variable([5, 5, 1, 32])
+        b_conv1 = bias_variable([32])
+
+        h_conv1 = tf.nn.relu(conv2d(self.input, W_conv1) + b_conv1)
+        h_pool1 = max_pool_2x2(h_conv1)
+
+        # second conv layer
+        W_conv2 = weight_variable([5, 5, 32, 64])
+        b_conv2 = bias_variable([64])
+
+        h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
+        h_pool2 = max_pool_2x2(h_conv2)
+
+        # fc1 layer
+        W_fc1 = weight_variable([8 * 8 * 64, 1024])
+        b_fc1 = bias_variable([1024])
+
+        h_pool2_flat = tf.reshape(h_pool2, [-1, 8*8*64])
+        h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
+
+        # dropout layer
+        keep_prob = tf.placeholder(tf.float32)
+        h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
+
+        # fc2 layer
+        W_fc2 = weight_variable([1024, 3])
+        b_fc2 = bias_variable([3])
+        self.output = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
+
         self.predict = tf.argmax(self.output, 1)
 
         # Below we obtain the loss by taking the sum of squares
@@ -55,7 +84,7 @@ class DQN(object):
         target_Q[0, self.a[0]] = self.reward + self.y * max_Q1
 
         # train our network using target and predicted Q values
-        self.sess.run([self.updateModel,self.W],
+        self.sess.run([self.updateModel],
             feed_dict={self.input:self.current_state,self.target:target_Q})
 
     def feed_forward(self, state):
@@ -97,3 +126,20 @@ class DQN(object):
     def get_random_action(self):
         """get a random action from actions"""
         return random.choice(self.actions)
+
+# helper functions
+
+def weight_variable(shape):
+    initial = tf.truncated_normal(shape, stddev=0.1)
+    return tf.Variable(initial)
+
+def bias_variable(shape):
+    initial = tf.constant(0.1, shape=shape)
+    return tf.Variable(initial)
+
+def conv2d(x, W):
+    return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
+
+def max_pool_2x2(x):
+    return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], 
+        strides=[1, 2, 2, 1], padding='SAME')
