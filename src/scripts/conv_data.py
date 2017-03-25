@@ -59,16 +59,16 @@ class Control_Robot(CmdVelPublisher, ImageSubscriber, object):
         cv2.waitKey(1)
 
     def writeImages(self, cv_image, binary_image, time, category):
-        directory = 'test'
-        # directory = 'train'
+        # directory = 'test'
+        directory = 'train'
         cv2.imwrite('data/{}/binary/{}/{}.png'.format(directory, category, time), binary_image)
         cv2.imwrite('data/{}/color/{}/{}.png'.format(directory, category, time), cv_image)
 
     def writeImagesMirror(self, cv_image, binary_image, time, category):
-        directory = 'test'
-        # directory = 'train'
-        cv2.imwrite('data/{}/binary/{}/{}.png'.format(directory, category, time), cv2.flip(binary_image, 0))
-        cv2.imwrite('data/{}/color/{}/{}.png'.format(directory, category, time), cv2.flip(cv_image, 0))
+        # directory = 'test'
+        directory = 'train'
+        cv2.imwrite('data/{}/binary/{}/{}flip.png'.format(directory, category, time), cv2.flip(binary_image, 1))
+        cv2.imwrite('data/{}/color/{}/{}flip.png'.format(directory, category, time), cv2.flip(cv_image, 1))
 
     def imageSave(self):
         cv_image = self.cv_image
@@ -77,6 +77,7 @@ class Control_Robot(CmdVelPublisher, ImageSubscriber, object):
 
         if self.key == 'i':
             self.writeImages(cv_image, binary_image, time, 'forward')
+            self.writeImagesMirror(cv_image, binary_image, time, 'forward')
         elif self.key == 'j':
             self.writeImages(cv_image, binary_image, time, 'left')
             self.writeImagesMirror(cv_image, binary_image, time, 'right')

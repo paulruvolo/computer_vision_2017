@@ -166,6 +166,9 @@ qtcreator-*
 /planning/docs
 /planning/src
 
+# Data folder
+/src/scripts/data
+
 *~
 
 # Emacs
