@@ -39,7 +39,7 @@ class MaskFinder(Color_Slider, object):
         # self.binary_image = cv2.inRange(self.hsv_image, (10,106,158), (20,255,255))
 
         # uncomment for color sliders
-        self.binary_image = cv2.inRange(self.cv_image, (self.rgb_lb[2],self.rgb_lb[1],self.rgb_lb[0]), (self.rgb_ub[2],self.rgb_ub[1],self.rgb_ub[2]))
+        self.binary_image = cv2.inRange(self.cv_image, (self.rgb_lb[2],self.rgb_lb[1],self.rgb_lb[0]), (self.rgb_ub[2],self.rgb_ub[1],self.rgb_ub[0]))
 
     def process_mouse_event(self, event, x,y,flags,param):
         """ Process mouse events so that you can see the color values associated

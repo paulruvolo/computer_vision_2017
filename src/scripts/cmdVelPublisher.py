@@ -35,7 +35,7 @@ class CmdVelPublisher(object):
 
     def stopState(self):
         """ Sets the velocity to stop """
-        print('stop')
+        # print('stop')
         self.linearVector  = Vector3(x=0.0, y=0.0, z=0.0)
         self.angularVector = Vector3(x=0.0, y=0.0, z=0.0)
 

@@ -23,5 +23,5 @@ class ImageSubscriber(object):
         """ Process image messages from ROS and stash them in an attribute
         called cv_image for subsequent processing """
         self.cv_image = cv2.resize(self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8"), (32, 32))
-        self.binary_image = cv2.inRange(self.cv_image, (self.rgb_lb[2], self.rgb_lb[1],self.rgb_lb[0]), (self.rgb_ub[2],self.rgb_ub[1],self.rgb_ub[0]))
+        self.binary_image = cv2.inRange(self.cv_image, (self.rgb_lb[2], self.rgb_lb[1],self.rgb_lb[0]), (self.rgb_ub[2],self.rgb_ub[1],self.rgb_ub[0]))/255.0
         self.binary_reshaped = self.binary_image.reshape([1,1024])
