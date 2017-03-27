@@ -13,7 +13,7 @@ class RobotController(CmdVelPublisher, ImageSubscriber, object):
         rospy.init_node('robot_control')
         super(RobotController, self).__init__()
 
-        self.network = DQN(.001, .1, .25)
+        self.network = DQN(.0003, .1, .25)
         self.network.start()
 
 
@@ -37,7 +37,7 @@ class RobotController(CmdVelPublisher, ImageSubscriber, object):
         rospy.sleep(.1) # use desired action for one second
         self.state[3].__call__() # set robot to stop
         self.sendMessage()
-        rospy.sleep(.25)
+        rospy.sleep(.1)
 
 
     def run(self):

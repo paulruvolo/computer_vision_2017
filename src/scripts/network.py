@@ -103,7 +103,7 @@ class DQN(object):
             self.a[0] = self.get_random_action()
 
         self.i += 1
-        # self.e = 1./((self.i/50.0) + 10)
+        self.e = 1./((self.i/100.0) + 10)
         print self.Q
         return self.a, self.Q
 
@@ -118,7 +118,7 @@ class DQN(object):
         print goodness, self.previous_goodness
         if goodness > self.previous_goodness:
             reward =  1
-        elif (goodness < self.previous_goodness):
+        elif (goodness < self.previous_goodness) or (goodness == self.previous_goodness and goodness == 0):
             reward = -1
         else:
             reward = 0
