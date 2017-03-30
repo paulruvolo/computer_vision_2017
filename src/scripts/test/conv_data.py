@@ -21,8 +21,6 @@ import termios
 """
 CompRobo Spring 2017
 
-Completed by Nathaniel Yee
-
 This script is a test script meant to collect image data for the convNet as training.
 """
 

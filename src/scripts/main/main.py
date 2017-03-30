@@ -14,8 +14,6 @@ from network import DQN
 """
 CompRobo Spring 2017
 
-Completed by Kevin, Nathan, and Yuzhong
-
 This script is the main script of this project, which brings together computer vision, reinforced learning, and robot actuation.
 The code works as follows:
 

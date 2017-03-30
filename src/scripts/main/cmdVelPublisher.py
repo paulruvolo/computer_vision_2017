@@ -13,8 +13,6 @@ import rospy
 """
 CompRobo Spring 2017
 
-Completed by Nathaniel Yee
-
 This script is a helper script for the RobotController class, and executes actions decided on by the network
 It basically creates Twist message and then specifies the message based on the inputted action
 """
@@ -83,6 +81,3 @@ class CmdVelPublisher(object):
         Publishes the Twist containing the linear and angular vector
         """
         self.pub.publish(Twist(linear=self.linearVector, angular=self.angularVector))
-
-
-        

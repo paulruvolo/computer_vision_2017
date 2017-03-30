@@ -16,8 +16,6 @@ import numpy as np
 """
 CompRobo Spring 2017
 
-Completed by Nathaniel Yee and Kevin Zhang
-
 This script is a helper class for the RobotController class, which pre-processes received images for the network.
 Pre-processing is defined as creating a binary image based on a specific shade of red, which is the color of the line we are following.
 """

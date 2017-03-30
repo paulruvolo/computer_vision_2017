@@ -13,8 +13,6 @@ import numpy as np
 """
 CompRobo Spring 2017
 
-Completed by Nathaniel Yee
-
 This script is a helper script for mask_finder.py to find optimal filtering parameters for images
 It holds the color bars used to interactively change filter channels in RGB.
 """

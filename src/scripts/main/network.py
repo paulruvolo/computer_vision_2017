@@ -14,8 +14,6 @@ import tensorflow as tf
 """
 CompRobo Spring 2017
 
-Completed by Kevin, Nathan, and Yuzhong
-
 This script holds the learning engine our project. It consists of a two-layer convNet with a Q-learning algorithm.
 The learning works as follows:
 

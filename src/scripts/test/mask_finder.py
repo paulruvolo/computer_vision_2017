@@ -16,8 +16,6 @@ from color_slider import Color_Slider
 """
 Comprobo Spring 2017
 
-Completed by Nathaniel Yee
-
 This script is meant as a test script to find out different combinations of filtering images to find the red line
 The script interacts with the color_slider class to easily discover good filters for images
 The code works as follows:

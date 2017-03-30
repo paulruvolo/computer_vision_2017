@@ -16,8 +16,6 @@ CompRobo Spring 2017
 
 Computer Vision Project
 
-Completed by Kevin Zhang
-
 This script is meant as a test file to try out different reward/loss functions in a lightweight method rather than running our entire network.
 The code performs very basic functionality:
 
