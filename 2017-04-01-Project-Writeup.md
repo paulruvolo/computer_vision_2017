@@ -1,16 +1,8 @@
----
-title: Project Writeup
-layout: post
-author: hooticambo
-permalink: /project-writeup/
-source-id: 10pGuWpS3OHzSSB7CCsJy4qz2qgNLtecjF7tmhxA3XSs
-published: true
----
 # Autonomous Q-learning Line Following Robot
 
 [Yuzhong Huang](https://github.com/YuzhongHuang), [Nathan Yee](https://github.com/NathanYee), [Kevin Zhang](https://github.com/kzhang8850)
 
-## ![image alt text]({{ site.url }}/public/OsRMiLcfOSn13tNMyGPtw_img_0.jpg)
+## ![image alt text](/public/OsRMiLcfOSn13tNMyGPtw_img_0.jpg)
 
 ## Project Goal
 
@@ -30,7 +22,7 @@ We also made some decisions on the reward function. Originally we decided to loo
 
 Another design decision we made is to take out the dropout layer in the convolutional neural network since dropout layers make the network unstable. One possible explanation is that in supervised learning, mini-batches increase the complexity of data, and adding noise can help reduce overfitting without adding too much instability to the network. Reinforcement Learning back-propagates only a single state data each iteration, so adding noise without much complexity will make the network unstable. 
 
-For the input of the neural network we chose to convert our original image from an RGB ![image alt text]({{ site.url }}/public/OsRMiLcfOSn13tNMyGPtw_img_1.png)640x480 pixel image to a binary 32x32 image. This ultimately allows us to evaluate and train our neural network faster and reduce the complexity of the network. 
+For the input of the neural network we chose to convert our original image from an RGB ![image alt text](/public/OsRMiLcfOSn13tNMyGPtw_img_1.png)640x480 pixel image to a binary 32x32 image. This ultimately allows us to evaluate and train our neural network faster and reduce the complexity of the network. 
 
 ## Code Structure
 
@@ -62,7 +54,7 @@ Class RobotController:
 
 RobotControl control loop:
 
-![image alt text]({{ site.url }}/public/OsRMiLcfOSn13tNMyGPtw_img_2.png)
+![image alt text](/public/OsRMiLcfOSn13tNMyGPtw_img_2.png)
 
 ## Challenges
 
