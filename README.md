@@ -1,5 +1,7 @@
 # Autonomous Q-learning Line Following Robot
 
+## Computational Robotics Spring 2017, Completed in 3 Weeks
+
 [Yuzhong Huang](https://github.com/YuzhongHuang), [Nathan Yee](https://github.com/NathanYee), [Kevin Zhang](https://github.com/kzhang8850)
 
 ## ![image alt text](/public/OsRMiLcfOSn13tNMyGPtw_img_0.jpg)
