@@ -1,8 +1,16 @@
+---
+title: Project Writeup
+layout: post
+author: hooticambo
+permalink: /project-writeup/
+source-id: 10pGuWpS3OHzSSB7CCsJy4qz2qgNLtecjF7tmhxA3XSs
+published: true
+---
 # Autonomous Q-learning Line Following Robot
 
 [Yuzhong Huang](https://github.com/YuzhongHuang), [Nathan Yee](https://github.com/NathanYee), [Kevin Zhang](https://github.com/kzhang8850)
 
-## ![image alt text](/public/OsRMiLcfOSn13tNMyGPtw_img_0.jpg)
+## ![image alt text]({{ site.url }}/public/OsRMiLcfOSn13tNMyGPtw_img_0.jpg)
 
 ## Project Goal
 
@@ -22,7 +30,7 @@ We also made some decisions on the reward function. Originally we decided to loo
 
 Another design decision we made is to take out the dropout layer in the convolutional neural network since dropout layers make the network unstable. One possible explanation is that in supervised learning, mini-batches increase the complexity of data, and adding noise can help reduce overfitting without adding too much instability to the network. Reinforcement Learning back-propagates only a single state data each iteration, so adding noise without much complexity will make the network unstable. 
 
-For the input of the neural network we chose to convert our original image from an RGB ![image alt text](/public/OsRMiLcfOSn13tNMyGPtw_img_1.png)640x480 pixel image to a binary 32x32 image. This ultimately allows us to evaluate and train our neural network faster and reduce the complexity of the network. 
+For the input of the neural network we chose to convert our original image from an RGB ![image alt text]({{ site.url }}/public/OsRMiLcfOSn13tNMyGPtw_img_1.png)640x480 pixel image to a binary 32x32 image. This ultimately allows us to evaluate and train our neural network faster and reduce the complexity of the network. 
 
 ## Code Structure
 
@@ -54,11 +62,11 @@ Class RobotController:
 
 RobotControl control loop:
 
-![image alt text](/public/OsRMiLcfOSn13tNMyGPtw_img_2.png)
+![image alt text]({{ site.url }}/public/OsRMiLcfOSn13tNMyGPtw_img_2.png)
 
 ## Challenges
 
-Reward functions make or break reinforcement learning. A bad reward function makes it impossible for the network to learn the proper behavior. A good reward function needs to encourage good behavior without being explicit. It took us several iterations to create a sufficient reward function that allowed for proper learning.  We choose to score images by counting the number of white pixels in the image before and after the chosen action. If the before image had a higher score than the after image, we gave a score of -1 to the network. If the first image had the same score as the after image, we gave a score of 0 to the network. If the before image has a higher score than the after image we have a score of +1 to the network. Given this very generic non problem specific reward function, our network was able learn to follow the line. See design decisions for the other reward function we tried.
+Reward functions make or break reinforcement learning. A bad reward function makes it impossible for the network to learn the proper behavior. A good reward function needs to encourage good behavior without being explicit. It took us several iterations to create a sufficient reward function that allowed for proper learning.  We choose to score images by counting the number of white pixels in the image before and after the chosen action. If the before image had a higher score than the after image, we gave a score of -1 to the network. If the first image had the same score as the after image, we gave a score of 0 to the network. If the before image has a higher score than the after image we have a score of +1 to the network. Given this very generic non problem specific reward function, our network was able learn to follow the line. See design decisions for the other reward functions we tried.
 
 Learning rate explosion can be caught early by printing the output vector during the control loop. There was a time when we realized the Neato kept losing its focus on the line after a short period every run. After many attempts to debug, we finally printed our Q-values and found that they had skyrocketed exponentially in less than 2 seconds. This helped determine that the learning rate was too high when the output vector displays [nan, nan, nan] after three training cycles.
 
