@@ -1,11 +1,3 @@
----
-title: Project Writeup
-layout: post
-author: hooticambo
-permalink: /project-writeup/
-source-id: 10pGuWpS3OHzSSB7CCsJy4qz2qgNLtecjF7tmhxA3XSs
-published: true
----
 # Autonomous Q-learning Line Following Robot
 
 [Yuzhong Huang](https://github.com/YuzhongHuang), [Nathan Yee](https://github.com/NathanYee), [Kevin Zhang](https://github.com/kzhang8850)
