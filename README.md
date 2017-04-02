@@ -20,9 +20,9 @@ Another decision was to make a two layer Convolutional Neural Network over a sin
 
 We also made some decisions on the reward function. Originally we decided to look at the entire binary image and count the number of white pixels in the 640x480 image - linearly weighting the bottom pixels to be more than the top pixels, but this method didn't allow for negative reinforcement. Next, we tried simplifying the image and went for a function that just looked at the bottom center 30 pixels of a 32x32 image and counted how many were white, with a threshold determining reward and punishment. However, this was too rigid and difficult to properly tune. We ended up using a function that looked at the bottom half of the 32x32 image and counted the number of white pixels, then it compared that with the previous reward output to determine the reward or punishment depending on whether it was higher or lower than the previously recorded value. There are still some loopholes, but for our purposes this was accurate enough.
 
-Another design decision we made is to take out the dropout layer in the convolutional neural network since dropout layers make the network unstable. One possible explanation is that in supervised learning, mini-batches increase the complexity of data, and adding noise can help reduce overfitting without adding too much instability to the network. Reinforcement Learning back-propagates only a single state data each iteration, so adding noise without much complexity will make the network unstable. 
+Another design decision we made is to take out the dropout layer in the convolutional neural network since dropout layers make the network unstable. One possible explanation is that in supervised learning, mini-batches increase the complexity of data, and adding noise can help reduce overfitting without adding too much instability to the network. Reinforcement Learning back-propagates only a single state data each iteration, so adding noise without much complexity will make the network unstable.
 
-For the input of the neural network we chose to convert our original image from an RGB ![image alt text](/public/OsRMiLcfOSn13tNMyGPtw_img_1.png)640x480 pixel image to a binary 32x32 image. This ultimately allows us to evaluate and train our neural network faster and reduce the complexity of the network. 
+For the input of the neural network we chose to convert our original image from an RGB ![image alt text](/public/imagePreprocessing.png)640x480 pixel image to a binary 32x32 image. This ultimately allows us to evaluate and train our neural network faster and reduce the complexity of the network.
 
 ## Code Structure
 
@@ -36,7 +36,7 @@ For the input of the neural network we chose to convert our original image from 
 
 4. CmdVelPublisher: Execution module, received commands that it sent to the Neato for movement
 
-Code Architecture: 
+Code Architecture:
 
 Class RobotController:
 
@@ -54,7 +54,7 @@ Class RobotController:
 
 RobotControl control loop:
 
-![image alt text](/public/OsRMiLcfOSn13tNMyGPtw_img_2.png)
+![image alt text](/public/controlLoop.png)
 
 ## Challenges
 
@@ -81,4 +81,3 @@ There are numerous ways to implement a Neural Network or optimize it, and whethe
 ## Videos
 
 [Demonstration 1](https://www.youtube.com/watch?v=R__f9THwd-A&feature=youtu.be)
-
